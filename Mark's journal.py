@@ -46,6 +46,8 @@ enemy_stats = {
 }
 
 previous_map = []
+next_map = []
+enemy_image = []
 previous_health = []
 battle_background = []
 
@@ -130,6 +132,27 @@ class Player(pygame.sprite.Sprite):
                         ShowDialog("Goshas_quest.txt")
                         triggers.remove(i)
                         backgrounds.remove(i)
+                    case 5:
+                        Clear()
+
+                        Map("world2.txt")
+                    case 6:
+                        Clear()
+
+                        Map("level3.txt")
+                    case 7:
+                        ShowDialog("Katyas_quest.txt")
+                        triggers.remove(i)
+                        backgrounds.remove(i)
+                    case 8:
+                        ShowDialog("Katyas_has_finished_quest.txt")
+                        triggers.remove(i)
+                        backgrounds.remove(i)
+                    case 9:
+                        if len(triggers) == 1:
+                            Clear()
+
+                            Map("level5.txt")
     
     def collisionItem(self):
         for i in items:
@@ -165,6 +188,12 @@ class Player(pygame.sprite.Sprite):
                 battle_background.clear()
                 battle_background.append(i.battle_background)
 
+                next_map.clear()
+                next_map.append(i.next_level)
+
+                enemy_image.clear()
+                enemy_image.append(i.image)
+
                 battle.append(True)
 
 class Wall(pygame.sprite.Sprite):
@@ -185,25 +214,9 @@ class Trigger(pygame.sprite.Sprite):
         self.action = action
 
 class Floor(pygame.sprite.Sprite):
-    def __init__(self, x, y):
+    def __init__(self, image, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("images/floor.png")
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-
-class Grass(pygame.sprite.Sprite):
-    def __init__(self, x, y):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("images/grass.png")
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-
-class Snow(pygame.sprite.Sprite):
-    def __init__(self, x, y):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("images/snow.png")
+        self.image = pygame.image.load(image)
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -269,6 +282,11 @@ def Map(level_name):
     if level_name == "home.txt":
         carpet.append(True)
 
+    if level_name == "final.txt":
+        pygame.mixer.music.load("sounds/final.ogg")
+        pygame.mixer.music.play(-1)
+        win.append(True)
+
     ShowDialog(level_name)
 
     for line in back:
@@ -280,13 +298,16 @@ def Map(level_name):
     for row in background:
         for i in row:
             if i == "F":
-                floor = Floor(x, y)
+                floor = Floor("images/floor.png", x, y)
                 backgrounds.add(floor)
             if i == "G":
-                grass = Grass(x, y)
+                grass = Floor("images/grass.png", x, y)
                 backgrounds.add(grass)
             if i == "S":
-                snow = Snow(x, y)
+                snow = Floor("images/snow.png", x, y)
+                backgrounds.add(snow)
+            if i == "W":
+                snow = Floor("images/water.png", x, y)
                 backgrounds.add(snow)
             x += 32
         x = 0
@@ -356,6 +377,10 @@ def Map(level_name):
                 wall = Wall("images/Gosha.png", x, y)
                 walls.append(wall)
                 sprites.add(wall)
+            elif i == "!":
+                item = Item("images/heal_potion.png", x, y, 5, 0, 0, 0, 0, 0, 0, 0, 0, 1)
+                items.append(item)
+                sprites.add(item)
             elif i == "Z":
                 item = Item("images/mana_potion.png", x, y, 0, 0, 3, 0, 0, 0, 0, 0, 0, 1)
                 items.append(item)
@@ -381,7 +406,43 @@ def Map(level_name):
                 items.append(item)
                 sprites.add(item)
             elif i == "H":
-                enemy = Enemy("images/goblin.png", x, y, "battle1.txt", 5, 2, 0, 0, 0, "level1-1.txt", "images/battle_background1.png")
+                enemy = Enemy("images/goblin.png", x, y, "level2.txt", 5, 2, 0, 0, 0, "level1-1.txt", "images/battle_background1.png")
+                enemies.append(enemy)
+                sprites.add(enemy)
+            elif i == "O":
+                wall = Wall("images/Katya.png", x, y)
+                walls.append(wall)
+                sprites.add(wall)
+            elif i == "J":
+                wall = Wall("images/cat.png", x, y)
+                walls.append(wall)
+                sprites.add(wall)
+            elif i == "L":
+                enemy = Enemy("images/shaman.png", x, y, "level4.txt", 10, 5, 2, 0, 2, "level3.txt", "images/battle_background2.png")
+                enemies.append(enemy)
+                sprites.add(enemy)
+            elif i == "{":
+                item = Item("images/bat.png", x, y, 0, 0, 0, 0, 0, 4, 0, 0, 0, 2)
+                items.append(item)
+                sprites.add(item)
+            elif i == "}":
+                item = Item("images/blade.png", x, y, 0, 0, 0, 0, 0, 0, 4, 0, 0, 2)
+                items.append(item)
+                sprites.add(item)
+            elif i == ":":
+                item = Item("images/axe.png", x, y, 0, 0, 0, 0, 0, 0, 0, 4, 0, 2)
+                items.append(item)
+                sprites.add(item)
+            elif i == "'":
+                item = Item("images/chainmail.png", x, y, 0, 4, 0, 0, 0, 0, 0, 0, 2, 3)
+                items.append(item)
+                sprites.add(item)
+            elif i == "?":
+                wall = Wall("images/book.png", x, y)
+                walls.append(wall)
+                sprites.add(wall)
+            elif i == ";":
+                enemy = Enemy("images/snake.png", x, y, "final.txt", 10, 5, 3, 3, 0, "level5.txt", "images/battle_background3.png")
                 enemies.append(enemy)
                 sprites.add(enemy)
             elif i == "1":
@@ -400,6 +461,26 @@ def Map(level_name):
                 trigger = Trigger(x, y, 4)
                 triggers.append(trigger)
                 backgrounds.add(trigger)
+            elif i == "5":
+                trigger = Trigger(x, y, 5)
+                triggers.append(trigger)
+                backgrounds.add(trigger)
+            elif i == "6":
+                trigger = Trigger(x, y, 6)
+                triggers.append(trigger)
+                backgrounds.add(trigger)
+            elif i == "7":
+                trigger = Trigger(x, y, 7)
+                triggers.append(trigger)
+                backgrounds.add(trigger)
+            elif i == "8":
+                trigger = Trigger(x, y, 8)
+                triggers.append(trigger)
+                backgrounds.add(trigger)
+            elif i == "9":
+                trigger = Trigger(x, y, 9)
+                triggers.append(trigger)
+                backgrounds.add(trigger)
             x += 32
         x = 0
         y += 32
@@ -412,6 +493,7 @@ def ShowDialog(dial):
         dialog.append(line[:-1])
 
 def Clear():
+    dialog.clear()
     players.clear()
     walls.clear()
     triggers.clear()
@@ -425,7 +507,7 @@ def Battle():
 
     screen.blit(pygame.image.load("images/player_right.png"), (64, 240))
 
-    screen.blit(pygame.image.load("images/goblin.png"), (736 - 96, 240))
+    screen.blit(enemy_image[0], (736 - 96, 240))
 
     enemy_panel = pygame.Surface((256, 160))
     enemy_panel.fill("White")
@@ -449,23 +531,24 @@ def GiveUp():
 
     Clear()
 
+    battle.clear()
+
     Map(previous_map[0])
 
-    battle.clear()
-
 def Win():
-    win.clear()
-    win.append(True)
+    Clear()
 
     battle.clear()
 
-    Clear()
+    stats["gold"] += 10
+
+    Map(next_map[0])
 
 sprites = pygame.sprite.Group()
 
 backgrounds = pygame.sprite.Group()
 
-Map("level1.txt")
+Map("home.txt")
 
 running = True
 while running:
@@ -481,6 +564,11 @@ while running:
     
     sprites.draw(screen)
 
+    if len(win) > 0:
+        screen.blit(pygame.image.load("images/battle_background1.png"), (0, 0))
+
+        hint = "Нажмите Enter, чтобы продолжить..."
+
     if len(dialog) > 0:
         screen.blit(font.render(dialog[0], True, "Black"), (34, 34))
         screen.blit(font.render(dialog[0], True, "White"), (32, 32))
@@ -494,11 +582,6 @@ while running:
         hint = "Используйте клавиши: 1 - дробящий, 2 - колющий, 3 - режущий. Esc - сбежать"
 
         Battle()
-    
-    if len(win) > 0:
-        screen.blit(pygame.image.load("images/battle_background1.png"), (0, 0))
-
-        hint = "Вы прошли ДЕМО!"
 
     if show_the_stats:
         screen.blit(panel, (736-288, 512-196))
