@@ -10,7 +10,7 @@ T                     T
 T                     T
 T                 T   T
 T Z X C           H   T
-T > N M               T
+T > N M -             T
 T                     T
 T                     T
 TTTTTTTTTTTTTTTTTTTTTTT

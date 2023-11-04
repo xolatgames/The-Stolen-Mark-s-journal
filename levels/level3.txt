@@ -9,9 +9,9 @@ A                     A
 A                     A
 A                     A
 A                     A
-A { }                 A
+A { } | +             A
 A                     A
-A : '                 A
+A : ' Z               A
 A          P          A
 AAAAAAAAAAAAAAAAAAAAAAA
  

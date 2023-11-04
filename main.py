@@ -1,4 +1,9 @@
 import pygame
+from wall import Wall
+from trigger import Trigger
+from floor import Floor
+from enemy import Enemy
+from item import Item
 
 clock = pygame.time.Clock()
 pygame.init()
@@ -24,6 +29,7 @@ stats = {
     "crushing_damage":0,
     "stabbing_damage":0,
     "chopping_damage":0,
+    "magic_damage":0,
     "armor":0
 }
 
@@ -153,6 +159,14 @@ class Player(pygame.sprite.Sprite):
                             Clear()
 
                             Map("level5.txt")
+                    case 10:
+                        ShowDialog("equipment1.txt")
+                        triggers.remove(i)
+                        backgrounds.remove(i)
+                    case 11:
+                        ShowDialog("equipment2.txt")
+                        triggers.remove(i)
+                        backgrounds.remove(i)
     
     def collisionItem(self):
         for i in items:
@@ -160,12 +174,21 @@ class Player(pygame.sprite.Sprite):
                 if i.price <= stats["gold"]:
                     stats["health"] += i.health
                     stats["max_health"] += i.max_health
+
+                    if stats["health"] > stats["max_health"]:
+                        stats["health"] = stats["max_health"]
+
                     stats["mana"] += i.mana
                     stats["max_mana"] += i.max_mana
+
+                    if stats["mana"] > stats["max_mana"]:
+                        stats["mana"] = stats["max_mana"]
+
                     stats["intelligent"] += i.intelligent
                     stats["crushing_damage"] += i.crushing_damage
                     stats["stabbing_damage"] += i.stabbing_damage
                     stats["chopping_damage"] += i.chopping_damage
+                    stats["magic_damage"] += i.magic_damage
                     stats["armor"] += i.armor
                     stats["gold"] -= i.price
                     items.remove(i)
@@ -184,6 +207,9 @@ class Player(pygame.sprite.Sprite):
 
                 previous_map.clear()
                 previous_map.append(i.previous_map)
+                
+                previous_health.clear()
+                previous_health.append(stats["health"])
 
                 battle_background.clear()
                 battle_background.append(i.battle_background)
@@ -195,76 +221,6 @@ class Player(pygame.sprite.Sprite):
                 enemy_image.append(i.image)
 
                 battle.append(True)
-
-class Wall(pygame.sprite.Sprite):
-    def __init__(self, picture, x, y):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(picture)
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-
-class Trigger(pygame.sprite.Sprite):
-    def __init__(self, x, y, action):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("images/trigger.png")
-        self.rect = pygame.Rect(0, 0, 32, 32)
-        self.rect.x = x
-        self.rect.y = y
-        self.action = action
-
-class Floor(pygame.sprite.Sprite):
-    def __init__(self, image, x, y):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(image)
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-
-class Item(pygame.sprite.Sprite):
-    def __init__(self, image, x, y, health, max_health, mana, max_mana, intelligent, crushing_damage, stabbing_damage, chopping_damage, armor, price):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(image)
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        self.health = health
-        self.max_health = max_health
-
-        if stats["health"] > stats["max_health"]:
-            stats["health"] = stats["max_health"]
-
-        self.mana = mana
-        self.max_mana = max_mana
-
-        if stats["mana"] > stats["max_mana"]:
-            stats["mana"] = stats["max_mana"]
-
-        self.intelligent = intelligent
-        self.crushing_damage = crushing_damage
-        self.stabbing_damage = stabbing_damage
-        self.chopping_damage = chopping_damage
-        self.armor = armor
-        self.price = price
-
-class Enemy(pygame.sprite.Sprite):
-    def __init__(self, image, x, y, next_level, health, damage, crushing_armor, stabbing_armor, chopping_armor, previous_map, battle_background):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(image)
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        self.health = health
-        self.damage = damage
-        self.crushing_armor = crushing_armor
-        self.stabbing_armor = stabbing_armor
-        self.chopping_armor = chopping_armor
-        self.next_level = next_level
-        self.previous_map = previous_map
-        self.battle_background = battle_background
-
-        previous_health.clear()
-        previous_health.append(stats["health"])
 
 def Map(level_name):
     level = []
@@ -380,31 +336,31 @@ def Map(level_name):
                     walls.append(wall)
                     sprites.add(wall)
                 case "!":
-                    item = Item("images/heal_potion.png", x, y, 5, 0, 0, 0, 0, 0, 0, 0, 0, 1)
+                    item = Item("images/heal_potion.png", x, y, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)
                     items.append(item)
                     sprites.add(item)
                 case "Z":
-                    item = Item("images/mana_potion.png", x, y, 0, 0, 3, 0, 0, 0, 0, 0, 0, 1)
+                    item = Item("images/mana_potion.png", x, y, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 1)
                     items.append(item)
                     sprites.add(item)
                 case "X":
-                    item = Item("images/book.png", x, y, 0, 0, 0, 3, 1, 0, 0, 0, 0, 2)
+                    item = Item("images/book.png", x, y, 0, 0, 0, 3, 1, 0, 0, 0, 0, 0, 2)
                     items.append(item)
                     sprites.add(item)
                 case "C":
-                    item = Item("images/glove.png", x, y, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2)
+                    item = Item("images/glove.png", x, y, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2)
                     items.append(item)
                     sprites.add(item)
                 case ">":
-                    item = Item("images/dart.png", x, y, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2)
+                    item = Item("images/dart.png", x, y, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2)
                     items.append(item)
                     sprites.add(item)
                 case "N":
-                    item = Item("images/small_axe.png", x, y, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2)
+                    item = Item("images/small_axe.png", x, y, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2)
                     items.append(item)
                     sprites.add(item)
                 case "M":
-                    item = Item("images/leather_armor.png", x, y, 0, 2, 0, 0, 0, 0, 0, 0, 1, 3)
+                    item = Item("images/leather_armor.png", x, y, 0, 2, 0, 0, 0, 0, 0, 0, 1, 0, 3)
                     items.append(item)
                     sprites.add(item)
                 case "H":
@@ -424,19 +380,23 @@ def Map(level_name):
                     enemies.append(enemy)
                     sprites.add(enemy)
                 case "{":
-                    item = Item("images/bat.png", x, y, 0, 0, 0, 0, 0, 4, 0, 0, 0, 2)
+                    item = Item("images/bat.png", x, y, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 3)
                     items.append(item)
                     sprites.add(item)
                 case "}":
-                    item = Item("images/blade.png", x, y, 0, 0, 0, 0, 0, 0, 4, 0, 0, 2)
+                    item = Item("images/blade.png", x, y, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 3)
                     items.append(item)
                     sprites.add(item)
                 case ":":
-                    item = Item("images/axe.png", x, y, 0, 0, 0, 0, 0, 0, 0, 4, 0, 2)
+                    item = Item("images/axe.png", x, y, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 3)
                     items.append(item)
                     sprites.add(item)
                 case "'":
-                    item = Item("images/chainmail.png", x, y, 0, 4, 0, 0, 0, 0, 0, 0, 2, 3)
+                    item = Item("images/chainmail.png", x, y, 0, 4, 0, 0, 0, 0, 0, 0, 2, 0, 4)
+                    items.append(item)
+                    sprites.add(item)
+                case "|":
+                    item = Item("images/scroll.png", x, y, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 4)
                     items.append(item)
                     sprites.add(item)
                 case "?":
@@ -481,6 +441,14 @@ def Map(level_name):
                     backgrounds.add(trigger)
                 case "9":
                     trigger = Trigger(x, y, 9)
+                    triggers.append(trigger)
+                    backgrounds.add(trigger)
+                case "-":
+                    trigger = Trigger(x, y, 10)
+                    triggers.append(trigger)
+                    backgrounds.add(trigger)
+                case "+":
+                    trigger = Trigger(x, y, 11)
                     triggers.append(trigger)
                     backgrounds.add(trigger)
             x += 32
@@ -571,17 +539,21 @@ while running:
 
         hint = "Нажмите Enter, чтобы продолжить..."
 
+        font_the_end = pygame.font.SysFont(None, 48)
+
+        screen.blit(font_the_end.render("Конец!", True, "Black"), (320, 256))
+
     if len(dialog) > 0:
         screen.blit(font.render(dialog[0], True, "Black"), (34, 34))
         screen.blit(font.render(dialog[0], True, "White"), (32, 32))
     else:
         hint = "Нажмите I, чтобы открыть характеристики"
     
-    panel = pygame.Surface((256, 160))
+    panel = pygame.Surface((256, 192))
     panel.fill("White")
 
     if len(battle) > 0:
-        hint = "Используйте клавиши: 1 - дробящий, 2 - колющий, 3 - режущий. Esc - сбежать"
+        hint = "Исп клавиши: 1 - дробящий, 2 - колющий, 3 - режущий, 4 - маг. Esc - сбежать"
 
         Battle()
 
@@ -595,7 +567,8 @@ while running:
         screen.blit(font.render("Дробящий урон: " + str(stats["crushing_damage"]), True, "Black"), (736-284, 512-192+80))
         screen.blit(font.render("Колющий урон: " + str(stats["stabbing_damage"]), True, "Black"), (736-284, 512-192+100))
         screen.blit(font.render("Рубящий урон: " + str(stats["chopping_damage"]), True, "Black"), (736-284, 512-192+120))
-        screen.blit(font.render("Броня: " + str(stats["armor"]), True, "Black"), (736-284, 512-192+140))
+        screen.blit(font.render("Маг урон: " + str(stats["magic_damage"]), True, "Black"), (736-284, 512-192+140))
+        screen.blit(font.render("Броня: " + str(stats["armor"]), True, "Black"), (736-284, 512-192+160))
 
     screen.blit(font.render(hint, True, "Black"), (34, 66))
     screen.blit(font.render(hint, True, "Yellow"), (32, 64))
@@ -622,6 +595,11 @@ while running:
                     case pygame.K_3:
                         enemy_stats["health"] -= stats["chopping_damage"] - enemy_stats["chopping_armor"]
                         stats["health"] -= enemy_stats["damage"] - stats["armor"]
+                    case pygame.K_4:
+                        if stats["mana"] >= 1:
+                            enemy_stats["health"] -= stats["magic_damage"]
+                            stats["health"] -= enemy_stats["damage"] - stats["armor"]
+                            stats["mana"] -= 1
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
