@@ -297,18 +297,19 @@ def Map(level_name):
     
     for row in background:
         for i in row:
-            if i == "F":
-                floor = Floor("images/floor.png", x, y)
-                backgrounds.add(floor)
-            if i == "G":
-                grass = Floor("images/grass.png", x, y)
-                backgrounds.add(grass)
-            if i == "S":
-                snow = Floor("images/snow.png", x, y)
-                backgrounds.add(snow)
-            if i == "W":
-                snow = Floor("images/water.png", x, y)
-                backgrounds.add(snow)
+            match i:
+                case "F":
+                    floor = Floor("images/floor.png", x, y)
+                    backgrounds.add(floor)
+                case "G":
+                    grass = Floor("images/grass.png", x, y)
+                    backgrounds.add(grass)
+                case "S":
+                    snow = Floor("images/snow.png", x, y)
+                    backgrounds.add(snow)
+                case "W":
+                    snow = Floor("images/water.png", x, y)
+                    backgrounds.add(snow)
             x += 32
         x = 0
         y += 32
@@ -317,170 +318,171 @@ def Map(level_name):
     
     for row in level:
         for i in row:
-            if i == "P":
-                player = Player(x, y)
-                players.append(player)
-                sprites.add(player)
-            elif i == "W":
-                wall = Wall("images/wall.png", x, y)
-                walls.append(wall)
-                sprites.add(wall)
-            elif i == "T":
-                wall = Wall("images/tree.png", x, y)
-                walls.append(wall)
-                sprites.add(wall)
-            elif i == "A":
-                wall = Wall("images/snow_tree.png", x, y)
-                walls.append(wall)
-                sprites.add(wall)
-            elif i == "B":
-                wall = Wall("images/bed.png", x, y)
-                walls.append(wall)
-                sprites.add(wall)
-            elif i == "Q":
-                wall = Wall("images/bedside_table.png", x, y)
-                walls.append(wall)
-                sprites.add(wall)
-            elif i == "E":
-                wall = Wall("images/table.png", x, y)
-                walls.append(wall)
-                sprites.add(wall)
-            elif i == "Y":
-                wall = Wall("images/wall_with_the_window.png", x, y)
-                walls.append(wall)
-                sprites.add(wall)
-            elif i == "F":
-                wall = Wall("images/fridge.png", x, y)
-                walls.append(wall)
-                sprites.add(wall)
-            elif i == "K":
-                wall = Wall("images/kitchen_stove.png", x, y)
-                walls.append(wall)
-                sprites.add(wall)
-            elif i == "S":
-                wall = Wall("images/sink.png", x, y)
-                walls.append(wall)
-                sprites.add(wall)
-            elif i == "D":
-                wall = Wall("images/door.png", x, y)
-                walls.append(wall)
-                sprites.add(wall)
-            elif i == "U":
-                wall = Wall("images/bookshelf.png", x, y)
-                walls.append(wall)
-                sprites.add(wall)
-            elif i == "V":
-                wall = Wall("images/village.png", x, y)
-                walls.append(wall)
-                sprites.add(wall)
-            elif i == "G":
-                wall = Wall("images/Gosha.png", x, y)
-                walls.append(wall)
-                sprites.add(wall)
-            elif i == "!":
-                item = Item("images/heal_potion.png", x, y, 5, 0, 0, 0, 0, 0, 0, 0, 0, 1)
-                items.append(item)
-                sprites.add(item)
-            elif i == "Z":
-                item = Item("images/mana_potion.png", x, y, 0, 0, 3, 0, 0, 0, 0, 0, 0, 1)
-                items.append(item)
-                sprites.add(item)
-            elif i == "X":
-                item = Item("images/book.png", x, y, 0, 0, 0, 3, 1, 0, 0, 0, 0, 2)
-                items.append(item)
-                sprites.add(item)
-            elif i == "C":
-                item = Item("images/glove.png", x, y, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2)
-                items.append(item)
-                sprites.add(item)
-            elif i == ">":
-                item = Item("images/dart.png", x, y, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2)
-                items.append(item)
-                sprites.add(item)
-            elif i == "N":
-                item = Item("images/small_axe.png", x, y, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2)
-                items.append(item)
-                sprites.add(item)
-            elif i == "M":
-                item = Item("images/leather_armor.png", x, y, 0, 2, 0, 0, 0, 0, 0, 0, 1, 3)
-                items.append(item)
-                sprites.add(item)
-            elif i == "H":
-                enemy = Enemy("images/goblin.png", x, y, "level2.txt", 5, 2, 0, 0, 0, "level1-1.txt", "images/battle_background1.png")
-                enemies.append(enemy)
-                sprites.add(enemy)
-            elif i == "O":
-                wall = Wall("images/Katya.png", x, y)
-                walls.append(wall)
-                sprites.add(wall)
-            elif i == "J":
-                wall = Wall("images/cat.png", x, y)
-                walls.append(wall)
-                sprites.add(wall)
-            elif i == "L":
-                enemy = Enemy("images/shaman.png", x, y, "level4.txt", 10, 5, 2, 0, 2, "level3.txt", "images/battle_background2.png")
-                enemies.append(enemy)
-                sprites.add(enemy)
-            elif i == "{":
-                item = Item("images/bat.png", x, y, 0, 0, 0, 0, 0, 4, 0, 0, 0, 2)
-                items.append(item)
-                sprites.add(item)
-            elif i == "}":
-                item = Item("images/blade.png", x, y, 0, 0, 0, 0, 0, 0, 4, 0, 0, 2)
-                items.append(item)
-                sprites.add(item)
-            elif i == ":":
-                item = Item("images/axe.png", x, y, 0, 0, 0, 0, 0, 0, 0, 4, 0, 2)
-                items.append(item)
-                sprites.add(item)
-            elif i == "'":
-                item = Item("images/chainmail.png", x, y, 0, 4, 0, 0, 0, 0, 0, 0, 2, 3)
-                items.append(item)
-                sprites.add(item)
-            elif i == "?":
-                wall = Wall("images/book.png", x, y)
-                walls.append(wall)
-                sprites.add(wall)
-            elif i == ";":
-                enemy = Enemy("images/snake.png", x, y, "final.txt", 10, 5, 3, 3, 0, "level5.txt", "images/battle_background3.png")
-                enemies.append(enemy)
-                sprites.add(enemy)
-            elif i == "1":
-                trigger = Trigger(x, y, 1)
-                triggers.append(trigger)
-                backgrounds.add(trigger)
-            elif i == "2":
-                trigger = Trigger(x, y, 2)
-                triggers.append(trigger)
-                backgrounds.add(trigger)
-            elif i == "3":
-                trigger = Trigger(x, y, 3)
-                triggers.append(trigger)
-                backgrounds.add(trigger)
-            elif i == "4":
-                trigger = Trigger(x, y, 4)
-                triggers.append(trigger)
-                backgrounds.add(trigger)
-            elif i == "5":
-                trigger = Trigger(x, y, 5)
-                triggers.append(trigger)
-                backgrounds.add(trigger)
-            elif i == "6":
-                trigger = Trigger(x, y, 6)
-                triggers.append(trigger)
-                backgrounds.add(trigger)
-            elif i == "7":
-                trigger = Trigger(x, y, 7)
-                triggers.append(trigger)
-                backgrounds.add(trigger)
-            elif i == "8":
-                trigger = Trigger(x, y, 8)
-                triggers.append(trigger)
-                backgrounds.add(trigger)
-            elif i == "9":
-                trigger = Trigger(x, y, 9)
-                triggers.append(trigger)
-                backgrounds.add(trigger)
+            match i:
+                case "P":
+                    player = Player(x, y)
+                    players.append(player)
+                    sprites.add(player)
+                case "W":
+                    wall = Wall("images/wall.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
+                case "T":
+                    wall = Wall("images/tree.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
+                case "A":
+                    wall = Wall("images/snow_tree.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
+                case "B":
+                    wall = Wall("images/bed.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
+                case "Q":
+                    wall = Wall("images/bedside_table.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
+                case "E":
+                    wall = Wall("images/table.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
+                case "Y":
+                    wall = Wall("images/wall_with_the_window.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
+                case "F":
+                    wall = Wall("images/fridge.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
+                case "K":
+                    wall = Wall("images/kitchen_stove.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
+                case "S":
+                    wall = Wall("images/sink.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
+                case "D":
+                    wall = Wall("images/door.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
+                case "U":
+                    wall = Wall("images/bookshelf.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
+                case "V":
+                    wall = Wall("images/village.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
+                case "G":
+                    wall = Wall("images/Gosha.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
+                case "!":
+                    item = Item("images/heal_potion.png", x, y, 5, 0, 0, 0, 0, 0, 0, 0, 0, 1)
+                    items.append(item)
+                    sprites.add(item)
+                case "Z":
+                    item = Item("images/mana_potion.png", x, y, 0, 0, 3, 0, 0, 0, 0, 0, 0, 1)
+                    items.append(item)
+                    sprites.add(item)
+                case "X":
+                    item = Item("images/book.png", x, y, 0, 0, 0, 3, 1, 0, 0, 0, 0, 2)
+                    items.append(item)
+                    sprites.add(item)
+                case "C":
+                    item = Item("images/glove.png", x, y, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2)
+                    items.append(item)
+                    sprites.add(item)
+                case ">":
+                    item = Item("images/dart.png", x, y, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2)
+                    items.append(item)
+                    sprites.add(item)
+                case "N":
+                    item = Item("images/small_axe.png", x, y, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2)
+                    items.append(item)
+                    sprites.add(item)
+                case "M":
+                    item = Item("images/leather_armor.png", x, y, 0, 2, 0, 0, 0, 0, 0, 0, 1, 3)
+                    items.append(item)
+                    sprites.add(item)
+                case "H":
+                    enemy = Enemy("images/goblin.png", x, y, "level2.txt", 5, 2, 0, 0, 0, "level1-1.txt", "images/battle_background1.png")
+                    enemies.append(enemy)
+                    sprites.add(enemy)
+                case "O":
+                    wall = Wall("images/Katya.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
+                case "J":
+                    wall = Wall("images/cat.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
+                case "L":
+                    enemy = Enemy("images/shaman.png", x, y, "level4.txt", 10, 5, 2, 0, 2, "level3.txt", "images/battle_background2.png")
+                    enemies.append(enemy)
+                    sprites.add(enemy)
+                case "{":
+                    item = Item("images/bat.png", x, y, 0, 0, 0, 0, 0, 4, 0, 0, 0, 2)
+                    items.append(item)
+                    sprites.add(item)
+                case "}":
+                    item = Item("images/blade.png", x, y, 0, 0, 0, 0, 0, 0, 4, 0, 0, 2)
+                    items.append(item)
+                    sprites.add(item)
+                case ":":
+                    item = Item("images/axe.png", x, y, 0, 0, 0, 0, 0, 0, 0, 4, 0, 2)
+                    items.append(item)
+                    sprites.add(item)
+                case "'":
+                    item = Item("images/chainmail.png", x, y, 0, 4, 0, 0, 0, 0, 0, 0, 2, 3)
+                    items.append(item)
+                    sprites.add(item)
+                case "?":
+                    wall = Wall("images/book.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
+                case ";":
+                    enemy = Enemy("images/snake.png", x, y, "final.txt", 10, 5, 3, 3, 0, "level5.txt", "images/battle_background3.png")
+                    enemies.append(enemy)
+                    sprites.add(enemy)
+                case "1":
+                    trigger = Trigger(x, y, 1)
+                    triggers.append(trigger)
+                    backgrounds.add(trigger)
+                case "2":
+                    trigger = Trigger(x, y, 2)
+                    triggers.append(trigger)
+                    backgrounds.add(trigger)
+                case "3":
+                    trigger = Trigger(x, y, 3)
+                    triggers.append(trigger)
+                    backgrounds.add(trigger)
+                case "4":
+                    trigger = Trigger(x, y, 4)
+                    triggers.append(trigger)
+                    backgrounds.add(trigger)
+                case "5":
+                    trigger = Trigger(x, y, 5)
+                    triggers.append(trigger)
+                    backgrounds.add(trigger)
+                case "6":
+                    trigger = Trigger(x, y, 6)
+                    triggers.append(trigger)
+                    backgrounds.add(trigger)
+                case "7":
+                    trigger = Trigger(x, y, 7)
+                    triggers.append(trigger)
+                    backgrounds.add(trigger)
+                case "8":
+                    trigger = Trigger(x, y, 8)
+                    triggers.append(trigger)
+                    backgrounds.add(trigger)
+                case "9":
+                    trigger = Trigger(x, y, 9)
+                    triggers.append(trigger)
+                    backgrounds.add(trigger)
             x += 32
         x = 0
         y += 32
@@ -608,17 +610,18 @@ while running:
             if event.key == pygame.K_i:
                 show_the_stats = not show_the_stats
             if len(battle) > 0:
-                if event.key == pygame.K_ESCAPE:
-                    GiveUp()
-                elif event.key == pygame.K_1:
-                    enemy_stats["health"] -= stats["crushing_damage"] - enemy_stats["crushing_armor"]
-                    stats["health"] -= enemy_stats["damage"] - stats["armor"]
-                elif event.key == pygame.K_2:
-                    enemy_stats["health"] -= stats["stabbing_damage"] - enemy_stats["stabbing_armor"]
-                    stats["health"] -= enemy_stats["damage"] - stats["armor"]
-                elif event.key == pygame.K_3:
-                    enemy_stats["health"] -= stats["chopping_damage"] - enemy_stats["chopping_armor"]
-                    stats["health"] -= enemy_stats["damage"] - stats["armor"]
+                match event.key:
+                    case pygame.K_ESCAPE:
+                        GiveUp()
+                    case pygame.K_1:
+                        enemy_stats["health"] -= stats["crushing_damage"] - enemy_stats["crushing_armor"]
+                        stats["health"] -= enemy_stats["damage"] - stats["armor"]
+                    case pygame.K_2:
+                        enemy_stats["health"] -= stats["stabbing_damage"] - enemy_stats["stabbing_armor"]
+                        stats["health"] -= enemy_stats["damage"] - stats["armor"]
+                    case pygame.K_3:
+                        enemy_stats["health"] -= stats["chopping_damage"] - enemy_stats["chopping_armor"]
+                        stats["health"] -= enemy_stats["damage"] - stats["armor"]
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
