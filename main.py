@@ -403,6 +403,10 @@ def Map(level_name):
                     wall = Wall("images/book.png", x, y)
                     walls.append(wall)
                     sprites.add(wall)
+                case ",":
+                    wall = Wall("images/apple_tree.png", x, y)
+                    walls.append(wall)
+                    sprites.add(wall)
                 case ";":
                     enemy = Enemy("images/snake.png", x, y, "final.txt", 10, 5, 3, 3, 0, "level5.txt", "images/battle_background3.png")
                     enemies.append(enemy)

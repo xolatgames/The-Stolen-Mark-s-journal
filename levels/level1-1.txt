@@ -7,8 +7,8 @@ T                  G  T
 T                     T
 T                     T
 T                     T
-T                     T
-T                 T   T
+T                 H   T
+T                H,H  T
 T Z X C         P H   T
 T > N M               T
 T                     T
