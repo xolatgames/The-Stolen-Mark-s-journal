@@ -1,4 +1,3 @@
-from clear import Clear
 from map import Map
 
 class Win():

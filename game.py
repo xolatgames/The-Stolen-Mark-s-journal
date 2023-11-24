@@ -4,6 +4,10 @@ from battle import Battle
 from giveup import GiveUp
 from showdialog import ShowDialog
 from clear import Clear
+from objects import Objects
+from playerstats import PlayerStats
+from battlestats import BattleStats
+from showthestats import ShowTheStats
 
 class Game():
     def __init__(self):
@@ -15,52 +19,15 @@ class Game():
         pygame.mixer.music.load("sounds/music.ogg")
         pygame.mixer.music.play(-1)
 
-        self.stats = {
-            "health":10,
-            "max_health":10,
-            "mana":0,
-            "max_mana":0,
-            "intelligent":1,
-            "gold":10,
-            "crushing_damage":0,
-            "stabbing_damage":0,
-            "chopping_damage":0,
-            "magic_damage":0,
-            "armor":0
-        }
-
-        self.show_the_stats = False
+        Objects.__init__(self)
+        PlayerStats.__init__(self)
+        BattleStats.__init__(self)
 
         self.font = pygame.font.SysFont(None, 24)
         self.dialog = []
         self.hint = "Press Enter, to resume..."
 
-        self.battle = False
-
-        self.enemy_stats = {
-            "health":5,
-            "damage":2,
-            "crushing_armor":0,
-            "stabbing_armor":0,
-            "chopping_armor":0
-        }
-
-        self.previous_map = ""
-        self.next_map = ""
-        self.enemy_image = ""
-        self.previous_health = 0
-        self.battle_background = ""
-
         self.win = False
-
-        self.sprites = pygame.sprite.Group()
-        self.backgrounds = pygame.sprite.Group()
-        
-        self.players = []
-        self.walls = []
-        self.triggers = []
-        self.items = []
-        self.enemies = []
 
         self.carpet = False
 
@@ -151,26 +118,11 @@ class Game():
             else:
                 self.hint = "Press I, to open stats"
             
-            self.panel = pygame.Surface((256, 192))
-            self.panel.fill("White")
-
             if self.battle:
-                self.hint = "Press: 1 - Crushing, 2 - Stabbing, 3 - Chopping, 4 - Magic. Esc - Leave the Battle"
-
                 Battle.__init__(self, self.battle_background)
 
             if self.show_the_stats:
-                self.screen.blit(self.panel, (736-288, 512-196))
-
-                self.screen.blit(self.font.render("Health: " + str(self.stats["health"]) + "/" + str(self.stats["max_health"]), True, "Black"), (736-284, 512-192))
-                self.screen.blit(self.font.render("Mana: " + str(self.stats["mana"]) + "/" + str(self.stats["max_mana"]), True, "Black"), (736-284, 512-192+20))
-                self.screen.blit(self.font.render("Intelligent: " + str(self.stats["intelligent"]), True, "Black"), (736-284, 512-192+40))
-                self.screen.blit(self.font.render("Gold: " + str(self.stats["gold"]), True, "Black"), (736-284, 512-192+60))
-                self.screen.blit(self.font.render("Crushing Damage: " + str(self.stats["crushing_damage"]), True, "Black"), (736-284, 512-192+80))
-                self.screen.blit(self.font.render("Stabbing Damage: " + str(self.stats["stabbing_damage"]), True, "Black"), (736-284, 512-192+100))
-                self.screen.blit(self.font.render("Chopping Damage: " + str(self.stats["chopping_damage"]), True, "Black"), (736-284, 512-192+120))
-                self.screen.blit(self.font.render("Magic Damage: " + str(self.stats["magic_damage"]), True, "Black"), (736-284, 512-192+140))
-                self.screen.blit(self.font.render("Armor: " + str(self.stats["armor"]), True, "Black"), (736-284, 512-192+160))
+                ShowTheStats.__init__(self)
 
             self.screen.blit(self.font.render(self.hint, True, "Black"), (34, 66))
             self.screen.blit(self.font.render(self.hint, True, "Yellow"), (32, 64))
@@ -182,8 +134,10 @@ class Game():
                     if event.key == pygame.K_RETURN:
                         if len(self.dialog) > 0:
                             del self.dialog[0]
+
                     if event.key == pygame.K_i:
                         self.show_the_stats = not self.show_the_stats
+
                     if self.battle:
                         match event.key:
                             case pygame.K_ESCAPE:
@@ -202,6 +156,7 @@ class Game():
                                     self.enemy_stats["health"] -= self.stats["magic_damage"]
                                     self.stats["health"] -= self.enemy_stats["damage"] - self.stats["armor"]
                                     self.stats["mana"] -= 1
+
                 if event.type == pygame.QUIT:
                     self.running = False
                     pygame.quit()
