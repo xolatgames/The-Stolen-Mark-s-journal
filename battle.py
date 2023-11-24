@@ -15,11 +15,11 @@ class Battle():
 
         self.screen.blit(enemy_panel, (32, 512-188))
 
-        self.screen.blit(self.font.render("Здоровье: " + str(self.enemy_stats["health"]), True, "Black"), (36, 512-184))
-        self.screen.blit(self.font.render("Урон: " + str(self.enemy_stats["damage"]), True, "Black"), (36, 512-184+20))
-        self.screen.blit(self.font.render("Защита от дробящего: " + str(self.enemy_stats["crushing_armor"]), True, "Black"), (36, 512-184+40))
-        self.screen.blit(self.font.render("Защита от колющего: " + str(self.enemy_stats["stabbing_armor"]), True, "Black"), (36, 512-184+60))
-        self.screen.blit(self.font.render("Защита от режущего: " + str(self.enemy_stats["chopping_armor"]), True, "Black"), (36, 512-184+80))
+        self.screen.blit(self.font.render("Health: " + str(self.enemy_stats["health"]), True, "Black"), (36, 512-184))
+        self.screen.blit(self.font.render("Damage: " + str(self.enemy_stats["damage"]), True, "Black"), (36, 512-184+20))
+        self.screen.blit(self.font.render("Against Crushing: " + str(self.enemy_stats["crushing_armor"]), True, "Black"), (36, 512-184+40))
+        self.screen.blit(self.font.render("Against Stabbing: " + str(self.enemy_stats["stabbing_armor"]), True, "Black"), (36, 512-184+60))
+        self.screen.blit(self.font.render("Against Chopping: " + str(self.enemy_stats["chopping_armor"]), True, "Black"), (36, 512-184+80))
 
         if self.stats["health"] <= 0:
             GiveUp.__init__(self)

@@ -33,7 +33,7 @@ class Game():
 
         self.font = pygame.font.SysFont(None, 24)
         self.dialog = []
-        self.hint = "Нажмите Enter, чтобы продолжить..."
+        self.hint = "Press Enter, to resume..."
 
         self.battle = False
 
@@ -139,7 +139,7 @@ class Game():
             if self.win:
                 self.screen.blit(pygame.image.load("images/battle_background1.png"), (0, 0))
 
-                self.hint = "Нажмите Enter, чтобы продолжить..."
+                self.hint = "Press Enter, to resume..."
 
                 self.font_the_end = pygame.font.SysFont(None, 48)
 
@@ -149,28 +149,28 @@ class Game():
                 self.screen.blit(self.font.render(self.dialog[0], True, "Black"), (34, 34))
                 self.screen.blit(self.font.render(self.dialog[0], True, "White"), (32, 32))
             else:
-                self.hint = "Нажмите I, чтобы открыть характеристики"
+                self.hint = "Press I, to open stats"
             
             self.panel = pygame.Surface((256, 192))
             self.panel.fill("White")
 
             if self.battle:
-                self.hint = "Исп клавиши: 1 - дробящий, 2 - колющий, 3 - режущий, 4 - маг. Esc - сбежать"
+                self.hint = "Press: 1 - Crushing, 2 - Stabbing, 3 - Chopping, 4 - Magic. Esc - Leave the Battle"
 
                 Battle.__init__(self, self.battle_background)
 
             if self.show_the_stats:
                 self.screen.blit(self.panel, (736-288, 512-196))
 
-                self.screen.blit(self.font.render("Здоровье: " + str(self.stats["health"]) + "/" + str(self.stats["max_health"]), True, "Black"), (736-284, 512-192))
-                self.screen.blit(self.font.render("Мана: " + str(self.stats["mana"]) + "/" + str(self.stats["max_mana"]), True, "Black"), (736-284, 512-192+20))
-                self.screen.blit(self.font.render("Интеллект: " + str(self.stats["intelligent"]), True, "Black"), (736-284, 512-192+40))
-                self.screen.blit(self.font.render("Золото: " + str(self.stats["gold"]), True, "Black"), (736-284, 512-192+60))
-                self.screen.blit(self.font.render("Дробящий урон: " + str(self.stats["crushing_damage"]), True, "Black"), (736-284, 512-192+80))
-                self.screen.blit(self.font.render("Колющий урон: " + str(self.stats["stabbing_damage"]), True, "Black"), (736-284, 512-192+100))
-                self.screen.blit(self.font.render("Рубящий урон: " + str(self.stats["chopping_damage"]), True, "Black"), (736-284, 512-192+120))
-                self.screen.blit(self.font.render("Маг урон: " + str(self.stats["magic_damage"]), True, "Black"), (736-284, 512-192+140))
-                self.screen.blit(self.font.render("Броня: " + str(self.stats["armor"]), True, "Black"), (736-284, 512-192+160))
+                self.screen.blit(self.font.render("Health: " + str(self.stats["health"]) + "/" + str(self.stats["max_health"]), True, "Black"), (736-284, 512-192))
+                self.screen.blit(self.font.render("Mana: " + str(self.stats["mana"]) + "/" + str(self.stats["max_mana"]), True, "Black"), (736-284, 512-192+20))
+                self.screen.blit(self.font.render("Intelligent: " + str(self.stats["intelligent"]), True, "Black"), (736-284, 512-192+40))
+                self.screen.blit(self.font.render("Gold: " + str(self.stats["gold"]), True, "Black"), (736-284, 512-192+60))
+                self.screen.blit(self.font.render("Crushing Damage: " + str(self.stats["crushing_damage"]), True, "Black"), (736-284, 512-192+80))
+                self.screen.blit(self.font.render("Stabbing Damage: " + str(self.stats["stabbing_damage"]), True, "Black"), (736-284, 512-192+100))
+                self.screen.blit(self.font.render("Chopping Damage: " + str(self.stats["chopping_damage"]), True, "Black"), (736-284, 512-192+120))
+                self.screen.blit(self.font.render("Magic Damage: " + str(self.stats["magic_damage"]), True, "Black"), (736-284, 512-192+140))
+                self.screen.blit(self.font.render("Armor: " + str(self.stats["armor"]), True, "Black"), (736-284, 512-192+160))
 
             self.screen.blit(self.font.render(self.hint, True, "Black"), (34, 66))
             self.screen.blit(self.font.render(self.hint, True, "Yellow"), (32, 64))
