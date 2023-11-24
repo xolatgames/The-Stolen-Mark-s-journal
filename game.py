@@ -64,8 +64,6 @@ class Game():
 
         self.carpet = False
 
-        Clear.__init__(self)
-
         Map.__init__(self, "home.txt")
 
         self.running = True
@@ -86,24 +84,16 @@ class Game():
                             self.backgrounds.remove(self.trigger)
                         case 2:
                             if len(self.triggers) == 1:
-                                Clear.__init__(self)
-
                                 Map.__init__(self, "world1.txt")
                         case 3:
-                            Clear.__init__(self)
-
                             Map.__init__(self, "level1.txt")
                         case 4:
                             self.dialog = ShowDialog.returndialog("Goshas_quest.txt")
                             self.triggers.remove(self.trigger)
                             self.backgrounds.remove(self.trigger)
                         case 5:
-                            Clear.__init__(self)
-
                             Map.__init__(self, "world2.txt")
                         case 6:
-                            Clear.__init__(self)
-
                             Map.__init__(self, "level3.txt")
                         case 7:
                             self.dialog = ShowDialog.returndialog("Katyas_quest.txt")
@@ -115,8 +105,6 @@ class Game():
                             self.backgrounds.remove(self.trigger)
                         case 9:
                             if len(self.triggers) == 1:
-                                Clear.__init__(self)
-
                                 Map.__init__(self, "level5.txt")
                         case 10:
                             self.dialog = ShowDialog.returndialog("equipment1.txt")
